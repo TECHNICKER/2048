@@ -30,6 +30,8 @@ class Block {
 		}
 };
 
+//func move - return list of pairs of values, a = further most taken coord, b = further most free coord if not mergible with a or a if mergible
+
 int main()
 {
 	bool up_prev = false;
