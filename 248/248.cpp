@@ -30,7 +30,10 @@ class Block {
 		}
 };
 
-//func move - return list of pairs of values, a = further most taken coord, b = further most free coord if not mergible with a or a if mergible
+//find movable blocks in desired direction -> return list of pairs of coords
+//find if said blocks are mergible with the closest block in the direction of play ->
+//??return list of pairs of values, a = further most taken coord, b = further most free coord if not mergible with a or a if mergible
+//merge said blocks
 
 int main()
 {
