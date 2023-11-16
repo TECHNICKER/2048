@@ -19,12 +19,13 @@ class Block {
 
 		Block()
 		{
-			//generator
+			//generate a block with less than 100 % chance, change block start value limit according to the highest block alive
 			;
 		}
 
 		void merge()
 		{
+			//generate a new block (at the coordinate of the one being merged to - this prolly in main loop), make it the combination of values of the two dying blocks
 			;
 		}
 };
