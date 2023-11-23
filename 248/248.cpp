@@ -1,5 +1,6 @@
 ﻿#include "248.h"
 #include <Windows.h>
+#include <stdlib.h.>
 
 
 int gametrix[4][4] = {
@@ -42,36 +43,68 @@ int main()
 	bool left_prev = false;
 	bool right_prev = false;
 
-
-	if (GetAsyncKeyState(VK_UP) & 0x8000)
+	while (1)
 	{
-		if (up_prev == false)
+		if (GetKeyState(VK_UP) & 0x8000)
 		{
-			//do stuff
-			up_prev = true;
+			if (up_prev == false)
+			{
+				system("cls");
+				printf(" up ");
+
+				up_prev = true;
+			}
 		}
-	} 
-	else 
-	{
-		up_prev = false;
+		else
+		{
+			up_prev = false;
+		}
+
+		if (GetKeyState(VK_DOWN) & 0x8000)
+		{
+			if (down_prev == false)
+			{
+				system("cls");
+				printf(" down ");
+
+				down_prev = true;
+			}
+		}
+		else
+		{
+			down_prev = false;
+		}
+
+		if (GetKeyState(VK_LEFT) & 0x8000)
+		{
+			if (left_prev == false)
+			{
+				system("cls");
+				printf(" left ");
+
+				left_prev = true;
+			}
+		}
+		else
+		{
+			left_prev = false;
+		}
+
+		if(GetKeyState(VK_RIGHT) & 0x8000)
+		{
+			if (right_prev == false)
+			{
+				system("cls");
+				printf(" right ");
+
+				right_prev = true;
+			}
+		}
+		else
+		{
+			right_prev = false;
+		}
 	}
-
-	/*if ((GetAsyncKeyState(VK_DOWN) & 0x8000) == true)
-	{
-		;// Do stuff
-	}
-
-	if ((GetAsyncKeyState(VK_LEFT) & 0x8000) == true)
-	{
-		;// Do stuff
-	}
-
-	if ((GetAsyncKeyState(VK_RIGHT) & 0x8000) == true)
-	{
-		;// Do stuff
-	}*/
-
-
 
 	return 0;
 }
