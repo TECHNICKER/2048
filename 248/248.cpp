@@ -1,13 +1,15 @@
 ﻿#include "248.h"
 #include <Windows.h>
 #include <stdlib.h.>
+#include <Math.h>
 
+int score = 0;
 
 int gametrix[4][4] = {
-						{0, 0, 0, 0},
-						{0, 0, 0, 0},
-						{0, 0, 0, 0},
-						{0, 0, 0, 0},
+						{0, 1, 2, 64},
+						{1, 512, 3, 4},
+						{2, 3, 4, 5},
+						{3, 4, 5, 2048},
 					 };
 
 class Block {
@@ -36,6 +38,44 @@ class Block {
 //??return list of pairs of values, a = further most taken coord, b = further most free coord if not mergible with a or a if mergible
 //merge said blocks
 
+void redraw()
+{
+	//printf("score: %d \n\n  %d %d %d %d \n  %d %d %d %d \n  %d %d %d %d \n  %d %d %d %d \n ", score, gametrix[0][0], gametrix[0][1], gametrix[0][2], gametrix[0][3], gametrix[1][0], gametrix[1][1], gametrix[1][2], gametrix[1][3], gametrix[2][0], gametrix[2][1], gametrix[2][2], gametrix[2][3], gametrix[3][0], gametrix[3][1], gametrix[3][2], gametrix[3][3]);
+	
+	int scale = 0;
+	int largest_tile = 0;
+	int curr_tile_len = 0;
+
+	for (int y = 0; y < 4; y++)
+	{
+		for (int x = 0; x < 4; x++)
+		{
+			largest_tile = (gametrix[x][y] > largest_tile) ? gametrix[x][y] : largest_tile;
+		}
+	}
+
+	if (largest_tile != 0)
+	{
+		scale = floor(log10(abs(largest_tile))) + 1;
+	}
+
+
+	for (int y = 0; y < 4; y++)
+	{
+		for (int x = 0; x < 4; x++)
+		{
+			printf("%d", gametrix[x][y]);
+			curr_tile_len = (gametrix[x][y] != 0) ? (floor(log10(abs(gametrix[x][y]))) + 1) : 1;
+
+			for (int spacer = 0; spacer < scale - curr_tile_len + 1; spacer++)
+			{
+				printf(" ");
+			}
+		}
+		printf("\n");
+	}
+}
+
 int main()
 {
 	bool up_prev = false;
@@ -50,7 +90,8 @@ int main()
 			if (up_prev == false)
 			{
 				system("cls");
-				printf(" up ");
+				/*printf(" up ");*/
+				redraw();
 
 				up_prev = true;
 			}
