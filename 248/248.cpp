@@ -4,18 +4,16 @@
 #include <stdlib.h>
 
 
-
 int gametrix[4][4] = {
-						{2, 4, 8, 2},
-						{0, 4, 8, 8},
-						{0, 4, 4, 0},
-						{2, 0, 0, 2},
+						{0, 0, 0, 0},
+						{0, 0, 0, 0},
+						{0, 0, 0, 0},
+						{0, 0, 0, 0},
 					 };
 
-//find movable blocks in desired ith the closest block in the direction of play ->
-//??return list of pairs of values, adirection -> return list of pairs of coords
-//find if said blocks are mergible w = further most taken coord, b = further most free coord if not mergible with a or a if mergible
-//merge said blocks
+int score = 0;
+
+int control = 0;
 
 inline void setFontSize(int a, int b)
 
@@ -44,6 +42,8 @@ void draw(void)
 	int scale = 0;
 
 	system("cls");
+	
+	printf("score: %d\n", score);
 
 	for (int y = 0; y < 4; y++)
 	{
@@ -203,6 +203,7 @@ void merge(char dir)
 				if (gametrix[y][x] == gametrix[y - 1][x] && (gametrix[y][x] * 2 != temptrix[y][x]))
 				{
 					temptrix[y - 1][x] = gametrix[y][x] * 2;
+					score += temptrix[y - 1][x];
 					temptrix[y][x] = -1; //MARK WHERE MERGED FROM
 				}
 			}
@@ -288,6 +289,7 @@ void merge(char dir)
 				if (gametrix[y][x] == gametrix[y + 1][x] && (gametrix[y][x] * 2 != temptrix[y][x]))
 				{
 					temptrix[y + 1][x] = gametrix[y][x] * 2;
+					score += temptrix[y + 1][x];
 					temptrix[y][x] = -1; //MARK WHERE MERGED FROM
 				}
 			}
@@ -357,6 +359,7 @@ void merge(char dir)
 				if (gametrix[y][x] == gametrix[y][x - 1] && (gametrix[y][x] * 2 != temptrix[y][x]))
 				{
 					temptrix[y][x - 1] = gametrix[y][x] * 2;
+					score += temptrix[y][x - 1];
 					temptrix[y][x] = -1; //MARK WHERE MERGED FROM
 				}
 			}
@@ -426,6 +429,7 @@ void merge(char dir)
 				if (gametrix[y][x] == gametrix[y][x + 1] && (gametrix[y][x] * 2 != temptrix[y][x]))
 				{
 					temptrix[y][x + 1] = gametrix[y][x] * 2;
+					score += temptrix[y][x + 1];
 					temptrix[y][x] = -1; //MARK WHERE MERGED FROM
 				}
 			}
@@ -472,6 +476,62 @@ void merge(char dir)
 	
 }
 
+void generate(void)
+{
+	struct Coords {
+		int x;
+		int y;
+	};
+	
+	int value_chance = 0;
+	int value = 0;
+	Coords free[16] = {};
+	int index = 0;
+	int random_tile = 0;
+
+	for (int y = 0; y < 4; y++)
+	{
+		for (int x = 0; x < 4; x++)
+		{
+			if (gametrix[y][x] == 0)
+			{
+				struct Coords pair;
+				pair.x = x;
+				pair.y = y;
+
+				free[index] = pair;
+
+				index += 1;
+			}
+		}
+	}
+
+	value_chance = (rand() % (5 - 1 + 1)) + 1;
+
+	(value_chance < 5) ? (value = 2) : (value_chance = 4);
+
+	switch (index)
+	{
+	case 0:
+
+		//control = 3;
+		break;
+
+	case 1:
+
+		random_tile = 0;
+		break;
+
+	default:
+
+		random_tile = rand() % (index - 1);
+		break;
+	}
+
+	gametrix[free[random_tile].y][free[random_tile].x] = value;
+
+}
+
 int main()
 {
 	bool up_prev = false;
@@ -479,8 +539,11 @@ int main()
 	bool left_prev = false;
 	bool right_prev = false;
 
-	setFontSize(25, 25);
+	setFontSize(50, 50);
+	srand(time(NULL));
 
+	generate();
+	generate();
 	draw();
 
 	while (1)
@@ -489,8 +552,10 @@ int main()
 		{
 			if (up_prev == false)
 			{
-
+				draw();
 				merge('U');
+				draw();
+				generate();
 				draw();
 
 				up_prev = true;
@@ -506,6 +571,7 @@ int main()
 			if (down_prev == false)
 			{
 				merge('D');
+				generate();
 				draw();
 
 				down_prev = true;
@@ -521,6 +587,7 @@ int main()
 			if (left_prev == false)
 			{
 				merge('L');
+				generate();
 				draw();
 
 				left_prev = true;
@@ -536,6 +603,7 @@ int main()
 			if (right_prev == false)
 			{
 				merge('R');
+				generate();
 				draw();
 
 				right_prev = true;
