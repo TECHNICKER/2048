@@ -63,7 +63,7 @@ void draw(void)
 			{
 			case 0:
 
-				printf("\033[0m");
+				printf("\033[1;30m");
 				printf("%d", gametrix[y][x]);
 
 				break;
@@ -144,7 +144,14 @@ void draw(void)
 				printf("%d", gametrix[y][x]);
 
 				break;
-			
+
+			default:
+
+				printf("\033[0m");
+				printf("%d", gametrix[y][x]);
+
+				break;
+
 			}
 
 			(gametrix[y][x] > 0) ? (curr_tile_length = floor(log10(abs(gametrix[y][x]))) + 1) : (curr_tile_length = 1);
@@ -189,7 +196,7 @@ void merge(char dir)
 		//
 
 		//MERGE
-		for (int y = 3; y >= 0; y--)
+		for (int y = 3; y > 0; y--)
 		{
 			for (int x = 0; x < 4; x++)
 			{
@@ -243,8 +250,10 @@ void merge(char dir)
 						{
 							gametrix[y][x] = 0;
 						}
-						gametrix[y][x] = gametrix[y + 1][x];
-						gametrix[y + 1][x] = 0;
+						else {
+							gametrix[y][x] = gametrix[y + 1][x];
+							gametrix[y + 1][x] = 0;
+						}
 					}
 				}
 			}
@@ -272,7 +281,7 @@ void merge(char dir)
 		//
 
 		//MERGE
-		for (int y = 0; y < 4; y++)
+		for (int y = 0; y < 3; y++)
 		{
 			for (int x = 0; x < 4; x++)
 			{
@@ -297,7 +306,7 @@ void merge(char dir)
 			}
 		}
 
-		//REMOVE MERGED FROM MARKERS AND MOVE UP
+		//REMOVE MERGED FROM MARKERS AND MOVE DOWN
 		for (int i = 0; i < 3; i++)
 		{
 			for (int y = 0; y < 4; y++)
@@ -306,12 +315,14 @@ void merge(char dir)
 				{
 					if (gametrix[y][x] == -1)
 					{
-						if (y == 3)
+						if (y == 0)
 						{
 							gametrix[y][x] = 0;
 						}
-						gametrix[y][x] = gametrix[y - 1][x];
-						gametrix[y - 1][x] = 0;
+						else {
+							gametrix[y][x] = gametrix[y - 1][x];
+							gametrix[y - 1][x] = 0;
+						}
 					}
 				}
 			}
@@ -338,6 +349,53 @@ void merge(char dir)
 		}
 		//
 		
+		//MERGE
+		for (int y = 0; y < 4; y++)
+		{
+			for (int x = 3; x > 0; x--)
+			{
+				if (gametrix[y][x] == gametrix[y][x - 1] && (gametrix[y][x] * 2 != temptrix[y][x]))
+				{
+					temptrix[y][x - 1] = gametrix[y][x] * 2;
+					temptrix[y][x] = -1; //MARK WHERE MERGED FROM
+				}
+			}
+		}
+		//
+
+		//UPDATE GAME MATRIX FROM MERGED TILES MATRIX
+		for (int y = 0; y < 4; y++)
+		{
+			for (int x = 0; x < 4; x++)
+			{
+				if (temptrix[y][x] != 0)
+				{
+					gametrix[y][x] = temptrix[y][x];
+				}
+			}
+		}
+
+		//REMOVE MERGED FROM MARKERS AND MOVE LEFT
+		for (int i = 0; i < 3; i++)
+		{
+			for (int y = 0; y < 4; y++)
+			{
+				for (int x = 3; x >= 0; x--)
+				{
+					if (gametrix[y][x] == -1)
+					{
+						if (x == 3)
+						{
+							gametrix[y][x] = 0;
+						}
+						else {
+							gametrix[y][x] = gametrix[y][x + 1];
+							gametrix[y][x + 1] = 0;
+						}
+					}
+				}
+			}
+		}
 
 		break;
 
@@ -359,6 +417,54 @@ void merge(char dir)
 			}
 		}
 		//
+
+		//MERGE
+		for (int y = 0; y < 4; y++)
+		{
+			for (int x = 0; x < 3; x++)
+			{
+				if (gametrix[y][x] == gametrix[y][x + 1] && (gametrix[y][x] * 2 != temptrix[y][x]))
+				{
+					temptrix[y][x + 1] = gametrix[y][x] * 2;
+					temptrix[y][x] = -1; //MARK WHERE MERGED FROM
+				}
+			}
+		}
+		//
+
+		//UPDATE GAME MATRIX FROM MERGED TILES MATRIX
+		for (int y = 0; y < 4; y++)
+		{
+			for (int x = 0; x < 4; x++)
+			{
+				if (temptrix[y][x] != 0)
+				{
+					gametrix[y][x] = temptrix[y][x];
+				}
+			}
+		}
+
+		//REMOVE MERGED FROM MARKERS AND MOVE RIGHT
+		for (int i = 0; i < 3; i++)
+		{
+			for (int y = 0; y < 4; y++)
+			{
+				for (int x = 0; x < 4; x++)
+				{
+					if (gametrix[y][x] == -1)
+					{
+						if (x == 0)
+						{
+							gametrix[y][x] = 0;
+						}
+						else {
+							gametrix[y][x] = gametrix[y][x - 1];
+							gametrix[y][x - 1] = 0;
+						}
+					}
+				}
+			}
+		}
 
 		break;
 	}
