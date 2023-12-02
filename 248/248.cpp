@@ -6,10 +6,10 @@
 
 
 int gametrix[4][4] = {
-						{2, 4, 8, 16},
-						{32, 64, 128, 256},
-						{512, 1024, 2048, 0},
-						{0, 0, 0, 0},
+						{2, 4, 8, 2},
+						{0, 4, 8, 8},
+						{0, 4, 4, 0},
+						{2, 0, 0, 2},
 					 };
 
 //find movable blocks in desired ith the closest block in the direction of play ->
@@ -188,7 +188,7 @@ void merge(char dir)
 		}
 		//
 
-		/*//MERGE
+		//MERGE
 		for (int y = 3; y >= 0; y--)
 		{
 			for (int x = 0; x < 4; x++)
@@ -217,7 +217,7 @@ void merge(char dir)
 				}
 			}
 		}*/
-		/*
+		
 		//UPDATE GAME MATRIX FROM MERGED TILES MATRIX
 		for (int y = 0; y < 4; y++)
 		{
@@ -248,7 +248,7 @@ void merge(char dir)
 					}
 				}
 			}
-		}*/
+		}
 
 		break;
 
@@ -271,7 +271,7 @@ void merge(char dir)
 		}
 		//
 
-		/*//MERGE
+		//MERGE
 		for (int y = 0; y < 4; y++)
 		{
 			for (int x = 0; x < 4; x++)
@@ -315,7 +315,7 @@ void merge(char dir)
 					}
 				}
 			}
-		}*/
+		}
 
 		break;
 
