@@ -12,8 +12,7 @@ int gametrix[4][4] = {
 					 };
 
 int score = 0;
-
-int control = 0;
+char control;
 
 inline void setFontSize(int a, int b)
 
@@ -33,6 +32,44 @@ inline void setFontSize(int a, int b)
 
 	SetCurrentConsoleFontEx(hStdOut, 0, lpConsoleCurrentFontEx);
 
+}
+
+void draw_menu(int menu)
+{
+	system("cls");
+
+	switch (menu)
+	{
+	case 0:
+
+		printf("\033[1;31m");
+		printf("New Game\n");
+		printf("\033[0m");
+		printf("Resume\nLeaderboards\n");
+
+		break;
+
+	case 1:
+
+		printf("New Game\n");
+		printf("\033[1;31m");
+		printf("Resume\n");
+		printf("\033[0m");
+		printf("Leaderboards\n");
+
+		break;
+
+	case 2:
+
+		printf("New Game\n");
+		printf("Resume\n");
+		printf("\033[1;31m");
+		printf("Leaderboards\n");
+		printf("\033[0m");
+
+		break;
+
+	}
 }
 
 void draw(void)
@@ -514,8 +551,7 @@ void generate(void)
 	{
 	case 0:
 
-		//control = 3;
-
+		control = 'O';
 		break;
 
 	case 1:
@@ -539,25 +575,27 @@ int main()
 	bool down_prev = false;
 	bool left_prev = false;
 	bool right_prev = false;
+	bool return_prev = false;
+	int menu = 0;
 
+	//init
 	setFontSize(50, 50);
 	srand(time(NULL));
 
-	generate();
-	generate();
-	draw();
+	draw_menu(menu);
 
 	while (1)
 	{
+
+		//nahoru v menu
 		if (GetKeyState(VK_UP) & 0x8000)
 		{
 			if (up_prev == false)
 			{
-				draw();
-				merge('U');
-				draw();
-				generate();
-				draw();
+				menu--;
+				if (menu < 0) { menu = 2; }
+
+				draw_menu(menu);
 
 				up_prev = true;
 			}
@@ -567,13 +605,15 @@ int main()
 			up_prev = false;
 		}
 
+		//dolu v menu
 		if (GetKeyState(VK_DOWN) & 0x8000)
 		{
 			if (down_prev == false)
 			{
-				merge('D');
-				generate();
-				draw();
+				menu++;
+				if (menu > 2) { menu = 0; }
+
+				draw_menu(menu);
 
 				down_prev = true;
 			}
@@ -583,36 +623,114 @@ int main()
 			down_prev = false;
 		}
 
-		if (GetKeyState(VK_LEFT) & 0x8000)
+		//potvrdit vyber
+		if (GetKeyState(VK_RETURN) & 0x8000)
 		{
-			if (left_prev == false)
+			if (return_prev == false)
 			{
-				merge('L');
-				generate();
-				draw();
+				switch (menu)
+				{
+				case 0:
 
-				left_prev = true;
+					control = 'N';
+
+					break;
+
+				case 1:
+
+					control = 'R';
+
+					break;
+
+				case 2:
+
+					control = 'L';
+
+					break;
+
+				}
+								
+				return_prev = true;
 			}
 		}
 		else
 		{
-			left_prev = false;
+			return_prev = false;
 		}
 
-		if(GetKeyState(VK_RIGHT) & 0x8000)
+		if (control == 'N')
 		{
-			if (right_prev == false)
+
+			generate();
+			generate();
+			draw();
+
+			while (control == 'N')
 			{
-				merge('R');
-				generate();
-				draw();
+				if (GetKeyState(VK_UP) & 0x8000)
+				{
+					if (up_prev == false)
+					{
+						merge('U');
+						generate();
+						draw();
 
-				right_prev = true;
+						up_prev = true;
+					}
+				}
+				else
+				{
+					up_prev = false;
+				}
+
+				if (GetKeyState(VK_DOWN) & 0x8000)
+				{
+					if (down_prev == false)
+					{
+						merge('D');
+						generate();
+						draw();
+
+						down_prev = true;
+					}
+				}
+				else
+				{
+					down_prev = false;
+				}
+
+				if (GetKeyState(VK_LEFT) & 0x8000)
+				{
+					if (left_prev == false)
+					{
+						merge('L');
+						generate();
+						draw();
+
+						left_prev = true;
+					}
+				}
+				else
+				{
+					left_prev = false;
+				}
+
+				if (GetKeyState(VK_RIGHT) & 0x8000)
+				{
+					if (right_prev == false)
+					{
+						merge('R');
+						generate();
+						draw();
+
+						right_prev = true;
+					}
+				}
+				else
+				{
+					right_prev = false;
+				}
 			}
-		}
-		else
-		{
-			right_prev = false;
 		}
 	}
 
