@@ -515,20 +515,21 @@ void generate(void)
 	case 0:
 
 		//control = 3;
+
 		break;
 
 	case 1:
 
 		random_tile = 0;
+		gametrix[free[random_tile].y][free[random_tile].x] = value;
 		break;
 
 	default:
 
 		random_tile = rand() % (index - 1);
+		gametrix[free[random_tile].y][free[random_tile].x] = value;
 		break;
 	}
-
-	gametrix[free[random_tile].y][free[random_tile].x] = value;
 
 }
 
