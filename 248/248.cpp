@@ -5,10 +5,10 @@
 
 
 int gametrix[4][4] = {
-						{0, 2, 4, 0},
-						{0, 2, 4, 2},
-						{0, 2, 0, 3},
-						{2, 2, 0, 0},
+						{2, 0, 2, 2},
+						{0, 2, 2, 2},
+						{0, 2, 0, 2},
+						{2, 0, 0, 2},
 					 };
 
 //find movable blocks in desired direction -> return list of pairs of coords
@@ -64,6 +64,7 @@ void merge(char dir)
 	{
 	case 'U':
 
+		//MOVE
 		for (int i = 0; i < 3; i++)
 		{
 			for (int y = 0; y < 3; y++)
@@ -78,7 +79,9 @@ void merge(char dir)
 				}
 			}
 		}
+		//
 
+		//MERGE
 		for (int y = 3; y >= 0; y--)
 		{
 			for (int x = 0; x < 4; x++)
@@ -86,12 +89,14 @@ void merge(char dir)
 				if (gametrix[y][x] == gametrix[y - 1][x] && (gametrix[y][x] * 2 != temptrix[y][x]))
 				{
 					temptrix[y - 1][x] = gametrix[y][x] * 2;
-					temptrix[y][x] = -1;
+					temptrix[y][x] = -1; //MARK WHERE MERGED FROM
 				}
 			}
 		}
+		//
 
-		for (int i = 0; i < 3; i++)
+		//MOVE MERGED IF ZEROS INBETWEEN
+		/*for (int i = 0; i < 3; i++)
 		{
 			for (int y = 0; y < 3; y++)
 			{
@@ -104,8 +109,9 @@ void merge(char dir)
 					}
 				}
 			}
-		}
+		}*/
 
+		//UPDATE GAME MATRIX FROM MERGED TILES MATRIX
 		for (int y = 0; y < 4; y++)
 		{
 			for (int x = 0; x < 4; x++)
@@ -117,6 +123,7 @@ void merge(char dir)
 			}
 		}
 
+		//REMOVE MERGED FROM MARKERS AND MOVE UP
 		for (int i = 0; i < 3; i++)
 		{
 			for (int y = 0; y < 4; y++)
@@ -140,7 +147,69 @@ void merge(char dir)
 
 	case 'D':
 
-	
+		//MOVE
+		for (int i = 0; i < 3; i++)
+		{
+			for (int y = 3; y > 0; y--)
+			{
+				for (int x = 0; x < 4; x++)
+				{
+					if (gametrix[y][x] == 0)
+					{
+						gametrix[y][x] = gametrix[y - 1][x];
+						gametrix[y - 1][x] = 0;
+					}
+				}
+			}
+		}
+		//
+
+		//MERGE
+		for (int y = 0; y < 4; y++)
+		{
+			for (int x = 0; x < 4; x++)
+			{
+				if (gametrix[y][x] == gametrix[y + 1][x] && (gametrix[y][x] * 2 != temptrix[y][x]))
+				{
+					temptrix[y + 1][x] = gametrix[y][x] * 2;
+					temptrix[y][x] = -1; //MARK WHERE MERGED FROM
+				}
+			}
+		}
+		//
+
+		//UPDATE GAME MATRIX FROM MERGED TILES MATRIX
+		for (int y = 0; y < 4; y++)
+		{
+			for (int x = 0; x < 4; x++)
+			{
+				if (temptrix[y][x] != 0)
+				{
+					gametrix[y][x] = temptrix[y][x];
+				}
+			}
+		}
+
+		//REMOVE MERGED FROM MARKERS AND MOVE UP
+		for (int i = 0; i < 3; i++)
+		{
+			for (int y = 0; y < 4; y++)
+			{
+				for (int x = 0; x < 4; x++)
+				{
+					if (gametrix[y][x] == -1)
+					{
+						if (y == 3)
+						{
+							gametrix[y][x] = 0;
+						}
+						gametrix[y][x] = gametrix[y - 1][x];
+						gametrix[y - 1][x] = 0;
+					}
+				}
+			}
+		}
+
 		break;
 
 	case 'L':
@@ -186,8 +255,8 @@ int main()
 		{
 			if (down_prev == false)
 			{
-				system("cls");
-				printf("%d", gametrix[2][1]);
+				merge('D');
+				draw();
 
 				down_prev = true;
 			}
@@ -201,8 +270,8 @@ int main()
 		{
 			if (left_prev == false)
 			{
-				system("cls");
-				printf(" left ");
+				merge('L');
+				draw();
 
 				left_prev = true;
 			}
@@ -216,8 +285,8 @@ int main()
 		{
 			if (right_prev == false)
 			{
-				system("cls");
-				printf(" right ");
+				merge('R');
+				draw();
 
 				right_prev = true;
 			}
