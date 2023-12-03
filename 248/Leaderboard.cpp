@@ -7,8 +7,15 @@
 
 Leaderboard_entry leaderboard[10] = {};
 
+FILE *file;
+
 void draw_leaderboard()
 {
+
+	file = fopen("Leaderboard.bin", "rb");
+	fread(&leaderboard[0], sizeof(struct Leaderboard_entry), 10, file);
+	fclose(file);
+
 	int longest_name = 0;
 
 	for (int index = 0; index < 10; index++)
@@ -68,6 +75,11 @@ void draw_leaderboard()
 
 void leaderboard_append(char name[], int score)
 {
+
+	file = fopen("Leaderboard.bin", "rb");
+	fread(&leaderboard[0], sizeof(struct Leaderboard_entry), 10, file);
+	fclose(file);
+
 	int index = 0;
 
 	while (1)
@@ -79,6 +91,11 @@ void leaderboard_append(char name[], int score)
 
 			if ((score > leaderboard[index + 1].score) && (score > leaderboard[index].score))
 			{
+
+				for (int i = 9; i > index; i--)
+				{
+					leaderboard[i] = leaderboard[i - 1];
+				}
 
 				leaderboard[index].score = score;
 				strcpy(leaderboard[index].name, name);
@@ -95,6 +112,11 @@ void leaderboard_append(char name[], int score)
 			if ((score < leaderboard[index - 1].score) && (score > leaderboard[index + 1].score) && (score > leaderboard[index].score))
 			{
 				
+				for (int i = 9; i > index; i--)
+				{
+					leaderboard[i] = leaderboard[i - 1];
+				}
+
 				leaderboard[index].score = score;
 				strcpy(leaderboard[index].name, name);
 
@@ -105,5 +127,9 @@ void leaderboard_append(char name[], int score)
 			}
 		}		
 	}
+
+	file = fopen("Leaderboard.bin", "wb");
+	fwrite(&leaderboard, sizeof(struct Leaderboard_entry), 10, file);
+	fclose(file);
 
 }
