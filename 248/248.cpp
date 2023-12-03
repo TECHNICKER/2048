@@ -75,7 +75,7 @@ void draw_menu(int menu)
 	}
 }
 
-void draw(void)
+void draw()
 {
 	int largest_tile = 0;
 	int curr_tile_length = 0;
@@ -518,7 +518,7 @@ void merge(char dir)
 	
 }
 
-void generate(void)
+void generate()
 {
 	struct Coords {
 		int x;
@@ -575,7 +575,7 @@ void generate(void)
 
 }
 
-void game_clear(void)
+void game_clear()
 {
 	score = 0;
 
@@ -604,7 +604,7 @@ int main()
 
 	draw_menu(menu);
 
-	while (1)
+	while (control == 'M')
 	{
 
 		while (control == 'M')

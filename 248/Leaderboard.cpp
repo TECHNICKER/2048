@@ -7,7 +7,7 @@
 
 Leaderboard_entry leaderboard[10] = {};
 
-void draw_leaderboard(void)
+void draw_leaderboard()
 {
 	int longest_name = 0;
 
@@ -47,17 +47,17 @@ void draw_leaderboard(void)
 			break;
 		}
 
-		for (int spacer = 0; spacer < longest_name - strlen(leaderboard[index].name) - 1; spacer++)
+		for (int spacer = 0; spacer < longest_name - strlen(leaderboard[index].name); spacer++)
 		{
 			printf(" ");
 		}
 
 		if ((index + 1) == 10)
 		{
-			printf(" | ");
+			printf("| ");
 		}
 		else {
-			printf("  | ");
+			printf(" | ");
 		}
 
 		printf("%d\n", leaderboard[index].score);
