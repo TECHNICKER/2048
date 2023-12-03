@@ -604,7 +604,7 @@ int main()
 
 	draw_menu(menu);
 
-	while (control == 'M')
+	while (1)
 	{
 
 		while (control == 'M')
@@ -682,20 +682,24 @@ int main()
 
 		}
 
-		if (control == 'N')
+		if (control == 'N' || control == 'R')
 		{
-			system("cls");
+			if (control == 'N')
+			{
+				system("cls");
 
-			game_clear();
+				game_clear();
 
-			printf("Insert player name:");
-			scanf("%16s", &player_name);
+				printf("Insert player name:");
+				scanf(" %16s", &player_name);
 
-			generate();
-			generate();
+				generate();
+				generate();
+			}
+			
 			draw();
 
-			while (control == 'N')
+			while (control == 'N' || control == 'R')
 			{
 				if (GetKeyState(VK_UP) & 0x8000)
 				{
@@ -760,6 +764,23 @@ int main()
 				{
 					right_prev = false;
 				}
+
+				if (GetKeyState(VK_ESCAPE) & 0x8000)
+				{
+
+					if (esc_prev == false)
+					{
+
+						control = 'M';
+						draw_menu(menu);
+
+						esc_prev = true;
+					}
+				}
+				else
+				{
+					esc_prev = false;
+				}
 			}
 		}
 
@@ -771,10 +792,12 @@ int main()
 			{
 				if (GetKeyState(VK_ESCAPE) & 0x8000)
 				{
+
 					if (esc_prev == false)
 					{
 						
 						control = 'M';
+						draw_menu(menu);
 
 						esc_prev = true;
 					}
