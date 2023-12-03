@@ -1,9 +1,10 @@
 #pragma once
 
 #include <iostream>
+#include "Draw.h"
 
 
-void draw(char name[16], int score, int *gametrix)
+void draw(char name[16], int score, int gametrix[4][4])
 {
 	int largest_tile = 0;
 	int curr_tile_length = 0;
@@ -12,7 +13,7 @@ void draw(char name[16], int score, int *gametrix)
 	system("cls");
 
 	printf("\033[0m");
-	printf("%s\n", player_name);
+	printf("%s\n", name);
 	printf("score: %d\n", score);
 
 	for (int y = 0; y < 4; y++)

@@ -1,8 +1,10 @@
 #pragma once
 
 #include <iostream>
+#include "Gamelogic.h"
 
-void merge(char dir, int *score, int *gametrix)
+
+void merge(char dir, int *score, int gametrix[4][4])
 {
 	int temptrix[4][4] = {
 							{0, 0, 0, 0},
@@ -47,21 +49,6 @@ void merge(char dir, int *score, int *gametrix)
 		}
 		//
 
-		//MOVE MERGED IF ZEROS INBETWEEN
-		/*for (int i = 0; i < 3; i++)
-		{
-			for (int y = 0; y < 3; y++)
-			{
-				for (int x = 0; x < 4; x++)
-				{
-					if (temptrix[y][x] == 0)
-					{
-						temptrix[y][x] = temptrix[y + 1][x];
-						temptrix[y + 1][x] = 0;
-					}
-				}
-			}
-		}*/
 
 		//UPDATE GAME MATRIX FROM MERGED TILES MATRIX
 		for (int y = 0; y < 4; y++)
@@ -312,7 +299,7 @@ void merge(char dir, int *score, int *gametrix)
 
 }
 
-void generate(int *gametrix)
+int generate(int gametrix[4][4])
 {
 	struct Coords {
 		int x;

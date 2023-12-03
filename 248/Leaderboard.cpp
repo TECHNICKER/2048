@@ -5,14 +5,21 @@
 #include <String.h>
 #include "Leaderboard.h"
 
-Leaderboard_entry leaderboard[10] = {};
 
-FILE *file;
-
-void draw_leaderboard()
+int draw_leaderboard()
 {
+	Leaderboard_entry leaderboard[10] = {};
 
-	file = fopen("Leaderboard.bin", "rb");
+	FILE* file;
+
+
+	file = fopen("binaries/Leaderboard.bin", "rb");
+
+	if (file == NULL)
+	{
+		return 1;
+	}
+
 	fread(&leaderboard[0], sizeof(struct Leaderboard_entry), 10, file);
 	fclose(file);
 
@@ -75,8 +82,12 @@ void draw_leaderboard()
 
 void leaderboard_append(char name[], int score)
 {
+	Leaderboard_entry leaderboard[10] = {};
 
-	file = fopen("Leaderboard.bin", "rb");
+	FILE* file;
+
+
+	file = fopen("binaries/Leaderboard.bin", "rb");
 	fread(&leaderboard[0], sizeof(struct Leaderboard_entry), 10, file);
 	fclose(file);
 
@@ -128,7 +139,7 @@ void leaderboard_append(char name[], int score)
 		}		
 	}
 
-	file = fopen("Leaderboard.bin", "wb");
+	file = fopen("binaries/Leaderboard.bin", "wb");
 	fwrite(&leaderboard, sizeof(struct Leaderboard_entry), 10, file);
 	fclose(file);
 

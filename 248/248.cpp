@@ -2,62 +2,16 @@
 #include "Leaderboard.h"
 #include "Draw.h"
 #include "Gamelogic.h"
+#include "Style.h"
+#include "Save.h"
 #include <Windows.h>
-#include <Math.h>
-#include <stdlib.h>
-
-int gametrix[4][4] = {
-						{0, 0, 0, 0},
-						{0, 0, 0, 0},
-						{0, 0, 0, 0},
-						{0, 0, 0, 0},
-					 };
-
-//struct GameInfo {
-//	char name[16];
-//	int score;
-//};
-
-char player_name[16] = "";
-int score = 0;
-
-char control = 'M';
-
-inline void setFontSize(int a, int b)
-
-{
-
-	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-
-	PCONSOLE_FONT_INFOEX lpConsoleCurrentFontEx = new CONSOLE_FONT_INFOEX();
-
-	lpConsoleCurrentFontEx->cbSize = sizeof(CONSOLE_FONT_INFOEX);
-
-	GetCurrentConsoleFontEx(hStdOut, 0, lpConsoleCurrentFontEx);
-
-	lpConsoleCurrentFontEx->dwFontSize.X = a;
-
-	lpConsoleCurrentFontEx->dwFontSize.Y = b;
-
-	SetCurrentConsoleFontEx(hStdOut, 0, lpConsoleCurrentFontEx);
-
-}
-
-void game_clear()
-{
-	score = 0;
-
-	for (int y = 0; y < 4; y++)
-	{
-		for (int x = 0; x < 4; x++)
-		{
-			gametrix[y][x] = 0;
-		}
-	}
-}
 
 int main()
 {
+	Gamestate game;
+
+	Gamestate empty_game;
+
 	bool up_prev = false;
 	bool down_prev = false;
 	bool left_prev = false;
@@ -65,10 +19,9 @@ int main()
 	bool return_prev = false;
 	bool esc_prev = false;
 	int menu = 0;
-	FILE *file;
-	FILE *file2;
+	char control = 'M';
 
-	//init
+
 	setFontSize(50, 50);
 	srand(time(NULL));
 
@@ -158,27 +111,26 @@ int main()
 			{
 				system("cls");
 
-				game_clear();
+				game = empty_game;
 
 				printf("Insert player name:");
-				scanf(" %16s", &player_name);
+				scanf(" %16s", &game.gameinfo.name);
 
-				generate();
-				generate();
+				generate(game.gametrix);
+				generate(game.gametrix);
 			}
 
 			if (control == 'R')
 			{
-				file2 = fopen("Gameinfo.bin", "rb");
-				fread(&gametrix[0][0], sizeof(int), 16, file2);
-				fclose(file2);
-
-				file = fopen("Gameboard.bin", "rb");
-				fread(&gametrix[0][0], sizeof(int), 16, file);
-				fclose(file);
+				if (load(game) == 1)
+				{
+					printf("Nothing to load!");
+					Sleep(3);
+					control = 'M';
+				}
 			}
 
-			draw(&player_name, score, gametrix);
+			draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
 
 			while (control == 'N' || control == 'R')
 			{
@@ -186,15 +138,16 @@ int main()
 				{
 					if (up_prev == false)
 					{
-						merge('U');
+						merge('U', &game.gameinfo.score, game.gametrix);
 						
-						if (generate() == 1)
+						if (generate(game.gametrix) == 1)
 						{
-							leaderboard_append(player_name, score);
+							leaderboard_append(game.gameinfo.name, game.gameinfo.score);
+							save(game);
 							control = 'M';
 						}
 						
-						draw(&player_name, score, gametrix);
+						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
 
 						up_prev = true;
 					}
@@ -208,15 +161,16 @@ int main()
 				{
 					if (down_prev == false)
 					{
-						merge('D');
+						merge('D', &game.gameinfo.score, game.gametrix);
 
-						if (generate() == 1)
+						if (generate(game.gametrix) == 1)
 						{
-							leaderboard_append(player_name, score);
+							leaderboard_append(game.gameinfo.name, game.gameinfo.score);
+							save(game);
 							control = 'M';
 						}
 
-						draw(&player_name, score, gametrix);
+						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
 
 						down_prev = true;
 					}
@@ -230,15 +184,16 @@ int main()
 				{
 					if (left_prev == false)
 					{
-						merge('L');
+						merge('L', &game.gameinfo.score, game.gametrix);
 
-						if (generate() == 1)
+						if (generate(game.gametrix) == 1)
 						{
-							leaderboard_append(player_name, score);
+							leaderboard_append(game.gameinfo.name, game.gameinfo.score);
+							save(game);
 							control = 'M';
 						}
 
-						draw(&player_name, score, gametrix);
+						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
 
 						left_prev = true;
 					}
@@ -252,15 +207,16 @@ int main()
 				{
 					if (right_prev == false)
 					{
-						merge('R');
+						merge('R', &game.gameinfo.score, game.gametrix);
 
-						if (generate() == 1)
+						if (generate(game.gametrix) == 1)
 						{
-							leaderboard_append(player_name, score);
+							leaderboard_append(game.gameinfo.name, game.gameinfo.score);
+							save(game);
 							control = 'M';
 						}
 
-						draw(&player_name, score, gametrix);
+						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
 
 						right_prev = true;
 					}
@@ -276,9 +232,7 @@ int main()
 					if (esc_prev == false)
 					{
 
-						file = fopen("Gameboard.bin", "wb");
-						fwrite(&gametrix, sizeof(int), 16, file);
-						fclose(file);
+						save(game);
 
 						control = 'M';
 						draw_menu(menu);
@@ -295,7 +249,12 @@ int main()
 
 		if (control == 'L')
 		{
-			draw_leaderboard();
+			if (draw_leaderboard() == 1)
+			{
+				printf("No leaderboard data!");
+				Sleep(3);
+				control = 'M';
+			}
 
 			while (control == 'L')
 			{
