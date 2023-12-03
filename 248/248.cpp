@@ -11,8 +11,14 @@ int gametrix[4][4] = {
 						{0, 0, 0, 0},
 					 };
 
+//struct GameInfo {
+//	char name[16];
+//	int score;
+//};
+
 char player_name[16] = "";
 int score = 0;
+
 char control = 'M';
 
 inline void setFontSize(int a, int b)
@@ -597,6 +603,8 @@ int main()
 	bool return_prev = false;
 	bool esc_prev = false;
 	int menu = 0;
+	FILE *file;
+	FILE *file2;
 
 	//init
 	setFontSize(50, 50);
@@ -696,7 +704,18 @@ int main()
 				generate();
 				generate();
 			}
-			
+
+			if (control == 'R')
+			{
+				file2 = fopen("Gameinfo.bin", "rb");
+				fread(&gametrix[0][0], sizeof(int), 16, file2);
+				fclose(file2);
+
+				file = fopen("Gameboard.bin", "rb");
+				fread(&gametrix[0][0], sizeof(int), 16, file);
+				fclose(file);
+			}
+
 			draw();
 
 			while (control == 'N' || control == 'R')
@@ -770,6 +789,10 @@ int main()
 
 					if (esc_prev == false)
 					{
+
+						file = fopen("Gameboard.bin", "wb");
+						fwrite(&gametrix, sizeof(int), 16, file);
+						fclose(file);
 
 						control = 'M';
 						draw_menu(menu);
