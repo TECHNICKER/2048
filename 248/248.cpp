@@ -1,8 +1,8 @@
 ﻿#include "248.h"
+#include "Leaderboard.h"
 #include <Windows.h>
 #include <Math.h>
 #include <stdlib.h>
-
 
 int gametrix[4][4] = {
 						{0, 0, 0, 0},
@@ -11,8 +11,9 @@ int gametrix[4][4] = {
 						{0, 0, 0, 0},
 					 };
 
+char player_name[16] = "";
 int score = 0;
-char control;
+char control = 'M';
 
 inline void setFontSize(int a, int b)
 
@@ -51,6 +52,7 @@ void draw_menu(int menu)
 
 	case 1:
 
+		printf("\033[0m");
 		printf("New Game\n");
 		printf("\033[1;31m");
 		printf("Resume\n");
@@ -61,6 +63,7 @@ void draw_menu(int menu)
 
 	case 2:
 
+		printf("\033[0m");
 		printf("New Game\n");
 		printf("Resume\n");
 		printf("\033[1;31m");
@@ -80,6 +83,8 @@ void draw(void)
 
 	system("cls");
 	
+	printf("\033[0m");
+	printf("%s\n", player_name);
 	printf("score: %d\n", score);
 
 	for (int y = 0; y < 4; y++)
@@ -551,7 +556,8 @@ void generate(void)
 	{
 	case 0:
 
-		control = 'O';
+		leaderboard_append(player_name, score);
+		control = 'M';
 		break;
 
 	case 1:
@@ -569,6 +575,19 @@ void generate(void)
 
 }
 
+void game_clear(void)
+{
+	score = 0;
+
+	for (int y = 0; y < 4; y++)
+	{
+		for (int x = 0; x < 4; x++)
+		{
+			gametrix[y][x] = 0;
+		}
+	}
+}
+
 int main()
 {
 	bool up_prev = false;
@@ -576,6 +595,7 @@ int main()
 	bool left_prev = false;
 	bool right_prev = false;
 	bool return_prev = false;
+	bool esc_prev = false;
 	int menu = 0;
 
 	//init
@@ -587,79 +607,89 @@ int main()
 	while (1)
 	{
 
-		//nahoru v menu
-		if (GetKeyState(VK_UP) & 0x8000)
+		while (control == 'M')
 		{
-			if (up_prev == false)
+			//nahoru v menu
+			if (GetKeyState(VK_UP) & 0x8000)
 			{
-				menu--;
-				if (menu < 0) { menu = 2; }
-
-				draw_menu(menu);
-
-				up_prev = true;
-			}
-		}
-		else
-		{
-			up_prev = false;
-		}
-
-		//dolu v menu
-		if (GetKeyState(VK_DOWN) & 0x8000)
-		{
-			if (down_prev == false)
-			{
-				menu++;
-				if (menu > 2) { menu = 0; }
-
-				draw_menu(menu);
-
-				down_prev = true;
-			}
-		}
-		else
-		{
-			down_prev = false;
-		}
-
-		//potvrdit vyber
-		if (GetKeyState(VK_RETURN) & 0x8000)
-		{
-			if (return_prev == false)
-			{
-				switch (menu)
+				if (up_prev == false)
 				{
-				case 0:
+					menu--;
+					if (menu < 0) { menu = 2; }
 
-					control = 'N';
+					draw_menu(menu);
 
-					break;
-
-				case 1:
-
-					control = 'R';
-
-					break;
-
-				case 2:
-
-					control = 'L';
-
-					break;
-
+					up_prev = true;
 				}
-								
-				return_prev = true;
 			}
-		}
-		else
-		{
-			return_prev = false;
+			else
+			{
+				up_prev = false;
+			}
+
+			//dolu v menu
+			if (GetKeyState(VK_DOWN) & 0x8000)
+			{
+				if (down_prev == false)
+				{
+					menu++;
+					if (menu > 2) { menu = 0; }
+
+					draw_menu(menu);
+
+					down_prev = true;
+				}
+			}
+			else
+			{
+				down_prev = false;
+			}
+
+			//potvrdit vyber
+			if (GetKeyState(VK_RETURN) & 0x8000)
+			{
+				if (return_prev == false)
+				{
+					switch (menu)
+					{
+					case 0:
+
+						control = 'N';
+
+						break;
+
+					case 1:
+
+						control = 'R';
+
+						break;
+
+					case 2:
+
+						control = 'L';
+
+						break;
+
+					}
+
+					return_prev = true;
+				}
+			}
+			else
+			{
+				return_prev = false;
+			}
+
 		}
 
 		if (control == 'N')
 		{
+			system("cls");
+
+			game_clear();
+
+			printf("Insert player name:");
+			scanf("%16s", &player_name);
 
 			generate();
 			generate();
@@ -732,6 +762,31 @@ int main()
 				}
 			}
 		}
+
+		if (control == 'L')
+		{
+			draw_leaderboard();
+
+			while (control == 'L')
+			{
+				if (GetKeyState(VK_ESCAPE) & 0x8000)
+				{
+					if (esc_prev == false)
+					{
+						
+						control = 'M';
+
+						esc_prev = true;
+					}
+				}
+				else
+				{
+					esc_prev = false;
+				}
+			}
+
+		}
+
 	}
 
 	return 0;
