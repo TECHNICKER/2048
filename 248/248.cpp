@@ -120,11 +120,11 @@ int main()
 
 				draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
 			}
-			else {
+			/*else {
 
 				if (control == 'R')
 				{
-					if (load(game) == 1)
+					if (load(game) == 1 || game.gameinfo.score == 0)
 					{
 						system("cls");
 						printf("\033[0;31m");
@@ -138,7 +138,7 @@ int main()
 						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
 					}
 				}
-			}
+			}*/
 
 			while (control == 'N' || control == 'R')
 			{
