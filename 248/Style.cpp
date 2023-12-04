@@ -6,7 +6,7 @@
 
 
 //poctivì ukradeno ze stackoverflow
-inline void setFontSize(int a, int b)
+void setFontSize(int a, int b)
 {
 
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);

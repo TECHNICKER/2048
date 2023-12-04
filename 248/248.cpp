@@ -8,9 +8,9 @@
 
 int main()
 {
-	Gamestate game;
+	Gamestate game{};
 
-	Gamestate empty_game;
+	Gamestate empty_game{};
 
 	bool up_prev = false;
 	bool down_prev = false;
@@ -20,7 +20,6 @@ int main()
 	bool esc_prev = false;
 	int menu = 0;
 	char control = 'M';
-
 
 	setFontSize(50, 50);
 	srand(time(NULL));
@@ -118,19 +117,28 @@ int main()
 
 				generate(game.gametrix);
 				generate(game.gametrix);
-			}
 
-			if (control == 'R')
-			{
-				if (load(game) == 1)
+				draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
+			}
+			else {
+
+				if (control == 'R')
 				{
-					printf("Nothing to load!");
-					Sleep(3);
-					control = 'M';
+					if (load(game) == 1)
+					{
+						system("cls");
+						printf("\033[0;31m");
+						printf("Nothing to load!");
+						printf("\033[0m");
+						Sleep(2000);
+						draw_menu(menu);
+						control = 'M';
+					}
+					else {
+						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
+					}
 				}
 			}
-
-			draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
 
 			while (control == 'N' || control == 'R')
 			{
@@ -142,8 +150,15 @@ int main()
 						
 						if (generate(game.gametrix) == 1)
 						{
-							leaderboard_append(game.gameinfo.name, game.gameinfo.score);
-							save(game);
+							if (leaderboard_append(game.gameinfo.name, game.gameinfo.score) == 1 || save(game) == 1)
+							{
+								system("cls");
+								printf("\033[0;31m");
+								printf("Nowhere to save!");
+								printf("\033[0m");
+								Sleep(2000);
+							}
+							draw_menu(menu);
 							control = 'M';
 						}
 						
@@ -165,8 +180,15 @@ int main()
 
 						if (generate(game.gametrix) == 1)
 						{
-							leaderboard_append(game.gameinfo.name, game.gameinfo.score);
-							save(game);
+							if (leaderboard_append(game.gameinfo.name, game.gameinfo.score) == 1 || save(game) == 1)
+							{
+								system("cls");
+								printf("\033[0;31m");
+								printf("Nowhere to save!");
+								printf("\033[0m");
+								Sleep(2000);
+							}
+							draw_menu(menu);
 							control = 'M';
 						}
 
@@ -188,8 +210,15 @@ int main()
 
 						if (generate(game.gametrix) == 1)
 						{
-							leaderboard_append(game.gameinfo.name, game.gameinfo.score);
-							save(game);
+							if (leaderboard_append(game.gameinfo.name, game.gameinfo.score) == 1 || save(game) == 1)
+							{
+								system("cls");
+								printf("\033[0;31m");
+								printf("Nowhere to save!");
+								printf("\033[0m");
+								Sleep(2000);
+							}
+							draw_menu(menu);
 							control = 'M';
 						}
 
@@ -211,8 +240,15 @@ int main()
 
 						if (generate(game.gametrix) == 1)
 						{
-							leaderboard_append(game.gameinfo.name, game.gameinfo.score);
-							save(game);
+							if (leaderboard_append(game.gameinfo.name, game.gameinfo.score) == 1 || save(game) == 1)
+							{
+								system("cls");
+								printf("\033[0;31m");
+								printf("Nowhere to save!");
+								printf("\033[0m");
+								Sleep(2000);
+							}
+							draw_menu(menu);
 							control = 'M';
 						}
 
@@ -251,8 +287,12 @@ int main()
 		{
 			if (draw_leaderboard() == 1)
 			{
+				system("cls");
+				printf("\033[0;31m");
 				printf("No leaderboard data!");
-				Sleep(3);
+				printf("\033[0m");
+				Sleep(2000);
+				draw_menu(menu);
 				control = 'M';
 			}
 

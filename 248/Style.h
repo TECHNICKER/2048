@@ -1,3 +1,3 @@
 #pragma once
 
-inline void setFontSize(int a, int b);
+void setFontSize(int a, int b);

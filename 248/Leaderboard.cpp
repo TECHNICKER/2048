@@ -13,16 +13,17 @@ int draw_leaderboard()
 	FILE* file;
 
 
-	file = fopen("binaries/Leaderboard.bin", "rb");
-
-	if (file == NULL)
+	if ((file = fopen("Leaderboard.bin", "rb")) != NULL)
+	{
+		fread(&leaderboard[0], sizeof(struct Leaderboard_entry), 10, file);
+		fclose(file);
+	}
+	else
 	{
 		return 1;
 	}
 
-	fread(&leaderboard[0], sizeof(struct Leaderboard_entry), 10, file);
-	fclose(file);
-
+	
 	int longest_name = 0;
 
 	for (int index = 0; index < 10; index++)
@@ -80,16 +81,23 @@ int draw_leaderboard()
 
 }
 
-void leaderboard_append(char name[], int score)
+int leaderboard_append(char name[], int score)
 {
 	Leaderboard_entry leaderboard[10] = {};
 
 	FILE* file;
 
 
-	file = fopen("binaries/Leaderboard.bin", "rb");
-	fread(&leaderboard[0], sizeof(struct Leaderboard_entry), 10, file);
-	fclose(file);
+	if ((file = fopen("Leaderboard.bin", "rb")) != NULL)
+	{
+		fread(&leaderboard[0], sizeof(struct Leaderboard_entry), 10, file);
+		fclose(file);
+	}
+	else
+	{
+		return 1;
+	}
+	
 
 	int index = 0;
 
@@ -139,8 +147,14 @@ void leaderboard_append(char name[], int score)
 		}		
 	}
 
-	file = fopen("binaries/Leaderboard.bin", "wb");
-	fwrite(&leaderboard, sizeof(struct Leaderboard_entry), 10, file);
-	fclose(file);
+	if ((file = fopen("Leaderboard.bin", "wb")) != NULL)
+	{
+		fwrite(&leaderboard, sizeof(struct Leaderboard_entry), 10, file);
+		fclose(file);
+	}
+	else
+	{
+		return 1;
+	}
 
 }
