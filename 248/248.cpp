@@ -120,7 +120,7 @@ int main()
 
 				draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
 			}
-			/*else {
+			else {
 
 				if (control == 'R')
 				{
@@ -138,7 +138,7 @@ int main()
 						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
 					}
 				}
-			}*/
+			}
 
 			while (control == 'N' || control == 'R')
 			{
