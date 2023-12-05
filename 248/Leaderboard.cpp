@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <Windows.h>
+#include <io.h>
 #include <String.h>
 #include "Leaderboard.h"
 
@@ -13,8 +14,9 @@ int draw_leaderboard()
 	FILE* file;
 
 
-	if ((file = fopen("Leaderboard.bin", "rb")) != NULL)
+	if (_access("Leaderboard.bin", 0) == 0)
 	{
+		file = fopen("Leaderboard.bin", "rb");
 		fread(&leaderboard[0], sizeof(struct Leaderboard_entry), 10, file);
 		fclose(file);
 	}
@@ -88,8 +90,9 @@ int leaderboard_append(char name[], int score)
 	FILE* file;
 
 
-	if ((file = fopen("Leaderboard.bin", "rb")) != NULL)
+	if (_access("Leaderboard.bin", 0) == 0)
 	{
+		file = fopen("Leaderboard.bin", "rb");
 		fread(&leaderboard[0], sizeof(struct Leaderboard_entry), 10, file);
 		fclose(file);
 	}
@@ -147,8 +150,9 @@ int leaderboard_append(char name[], int score)
 		}		
 	}
 
-	if ((file = fopen("Leaderboard.bin", "wb")) != NULL)
+	if (_access("Leaderboard.bin", 0) == 0)
 	{
+		file = fopen("Leaderboard.bin", "wb");
 		fwrite(&leaderboard, sizeof(struct Leaderboard_entry), 10, file);
 		fclose(file);
 	}

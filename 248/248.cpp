@@ -9,7 +9,6 @@
 int main()
 {
 	Gamestate game{};
-
 	Gamestate empty_game{};
 
 	bool up_prev = false;
@@ -124,7 +123,7 @@ int main()
 
 				if (control == 'R')
 				{
-					if (load(game) == 1 || game.gameinfo.score == 0)
+					if (load(game) == 1)
 					{
 						system("cls");
 						printf("\033[0;31m");
