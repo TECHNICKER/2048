@@ -107,11 +107,13 @@ int main()
 		{
 			if (control == 'N')
 			{
-				system("cls");
-
 				game = empty_game;
 
+				system("cls");
 				printf("Insert player name:");
+
+				char c;
+				while ((c = getchar()) != '\n' && c != EOF);
 				scanf(" %16s", &(game.gameinfo.name));
 
 				generate(game.gametrix);
