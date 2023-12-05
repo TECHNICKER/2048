@@ -117,12 +117,15 @@ int main()
 				generate(game.gametrix);
 				generate(game.gametrix);
 
+				save(&game);
 				draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
 			}
 			else {
 
 				if (control == 'R')
 				{
+					game = empty_game;
+
 					if (load(&game) == 1)
 					{
 						control = 'M';
@@ -159,6 +162,7 @@ int main()
 							break;
 						}
 						
+						save(&game);
 						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
 
 						up_prev = true;
@@ -191,6 +195,7 @@ int main()
 							break;
 						}
 
+						save(&game);
 						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
 
 						down_prev = true;
@@ -223,6 +228,7 @@ int main()
 							break;
 						}
 
+						save(&game);
 						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
 
 						left_prev = true;
@@ -255,6 +261,7 @@ int main()
 							break;
 						}
 
+						save(&game);
 						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
 
 						right_prev = true;
@@ -271,7 +278,7 @@ int main()
 					if (esc_prev == false)
 					{
 
-						save(game);
+						save(&game);
 
 						control = 'M';
 						draw_menu(menu);

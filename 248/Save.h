@@ -7,6 +7,6 @@ struct Gamestate {
 	int gametrix[4][4];
 };
 
-void save(Gamestate game);
+void save(Gamestate *game);
 
 int load(Gamestate *game);
