@@ -108,6 +108,7 @@ int main()
 			if (control == 'N')
 			{
 				game = empty_game;
+				save(&game);
 
 				system("cls");
 				printf("Insert player name:");
