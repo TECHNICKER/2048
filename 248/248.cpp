@@ -123,17 +123,13 @@ int main()
 
 				if (control == 'R')
 				{
-					if (load(game) == 1)
+					if (load(&game) == 1)
 					{
-						system("cls");
-						printf("\033[0;31m");
-						printf("Nothing to load!");
-						printf("\033[0m");
-						Sleep(2000);
-						draw_menu(menu);
 						control = 'M';
+						draw_menu(menu);
 					}
-					else {
+					else
+					{
 						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
 					}
 				}
@@ -149,16 +145,18 @@ int main()
 						
 						if (generate(game.gametrix) == 1)
 						{
-							if (leaderboard_append(game.gameinfo.name, game.gameinfo.score) == 1 || save(game) == 1)
-							{
-								system("cls");
-								printf("\033[0;31m");
-								printf("Nowhere to save!");
-								printf("\033[0m");
-								Sleep(2000);
-							}
+							system("cls");
+							printf("\033[0;31m");
+							printf("GAME OVER");
+							printf("\033[0m");
+							leaderboard_append(game.gameinfo.name, game.gameinfo.score);
+							remove("Gamestate.bin");
+
+							Sleep(2000);
+							
 							draw_menu(menu);
 							control = 'M';
+							break;
 						}
 						
 						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
@@ -179,16 +177,18 @@ int main()
 
 						if (generate(game.gametrix) == 1)
 						{
-							if (leaderboard_append(game.gameinfo.name, game.gameinfo.score) == 1 || save(game) == 1)
-							{
-								system("cls");
-								printf("\033[0;31m");
-								printf("Nowhere to save!");
-								printf("\033[0m");
-								Sleep(2000);
-							}
+							system("cls");
+							printf("\033[0;31m");
+							printf("GAME OVER");
+							printf("\033[0m");
+							leaderboard_append(game.gameinfo.name, game.gameinfo.score);
+							remove("Gamestate.bin");
+
+							Sleep(2000);
+
 							draw_menu(menu);
 							control = 'M';
+							break;
 						}
 
 						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
@@ -209,16 +209,18 @@ int main()
 
 						if (generate(game.gametrix) == 1)
 						{
-							if (leaderboard_append(game.gameinfo.name, game.gameinfo.score) == 1 || save(game) == 1)
-							{
-								system("cls");
-								printf("\033[0;31m");
-								printf("Nowhere to save!");
-								printf("\033[0m");
-								Sleep(2000);
-							}
+							system("cls");
+							printf("\033[0;31m");
+							printf("GAME OVER");
+							printf("\033[0m");
+							leaderboard_append(game.gameinfo.name, game.gameinfo.score);
+							remove("Gamestate.bin");
+
+							Sleep(2000);
+
 							draw_menu(menu);
 							control = 'M';
+							break;
 						}
 
 						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
@@ -239,16 +241,18 @@ int main()
 
 						if (generate(game.gametrix) == 1)
 						{
-							if (leaderboard_append(game.gameinfo.name, game.gameinfo.score) == 1 || save(game) == 1)
-							{
-								system("cls");
-								printf("\033[0;31m");
-								printf("Nowhere to save!");
-								printf("\033[0m");
-								Sleep(2000);
-							}
+							system("cls");
+							printf("\033[0;31m");
+							printf("GAME OVER");
+							printf("\033[0m");
+							leaderboard_append(game.gameinfo.name, game.gameinfo.score);
+							remove("Gamestate.bin");
+
+							Sleep(2000);
+
 							draw_menu(menu);
 							control = 'M';
+							break;
 						}
 
 						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
@@ -284,16 +288,8 @@ int main()
 
 		if (control == 'L')
 		{
-			if (draw_leaderboard() == 1)
-			{
-				system("cls");
-				printf("\033[0;31m");
-				printf("No leaderboard data!");
-				printf("\033[0m");
-				Sleep(2000);
-				draw_menu(menu);
-				control = 'M';
-			}
+
+			draw_leaderboard();
 
 			while (control == 'L')
 			{

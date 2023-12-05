@@ -2,31 +2,27 @@
 
 #include <iostream>
 #include <Windows.h>
-#include <io.h>
 #include <String.h>
 #include "Leaderboard.h"
 
 
-int draw_leaderboard()
+void draw_leaderboard()
 {
 	Leaderboard_entry leaderboard[10] = {};
-
 	FILE* file;
+	int longest_name = 0;
 
-
-	if (_access("Leaderboard.bin", 0) == 0)
+	if ((file = fopen("Leaderboard.bin", "rb")) != NULL)
 	{
-		file = fopen("Leaderboard.bin", "rb");
 		fread(&leaderboard[0], sizeof(struct Leaderboard_entry), 10, file);
 		fclose(file);
 	}
 	else
 	{
-		return 1;
+		file = fopen("Leaderboard.bin", "wb");
+		fwrite(&leaderboard, sizeof(struct Leaderboard_entry), 10, file);
+		fclose(file);
 	}
-
-	
-	int longest_name = 0;
 
 	for (int index = 0; index < 10; index++)
 	{
@@ -83,26 +79,17 @@ int draw_leaderboard()
 
 }
 
-int leaderboard_append(char name[], int score)
+void leaderboard_append(char name[], int score)
 {
 	Leaderboard_entry leaderboard[10] = {};
-
 	FILE* file;
+	int index = 0;
 
-
-	if (_access("Leaderboard.bin", 0) == 0)
+	if ((file = fopen("Leaderboard.bin", "rb")) != NULL)
 	{
-		file = fopen("Leaderboard.bin", "rb");
 		fread(&leaderboard[0], sizeof(struct Leaderboard_entry), 10, file);
 		fclose(file);
 	}
-	else
-	{
-		return 1;
-	}
-	
-
-	int index = 0;
 
 	while (1)
 	{
@@ -150,15 +137,8 @@ int leaderboard_append(char name[], int score)
 		}		
 	}
 
-	if (_access("Leaderboard.bin", 0) == 0)
-	{
-		file = fopen("Leaderboard.bin", "wb");
-		fwrite(&leaderboard, sizeof(struct Leaderboard_entry), 10, file);
-		fclose(file);
-	}
-	else
-	{
-		return 1;
-	}
+	file = fopen("Leaderboard.bin", "wb");
+	fwrite(&leaderboard, sizeof(struct Leaderboard_entry), 10, file);
+	fclose(file);
 
 }

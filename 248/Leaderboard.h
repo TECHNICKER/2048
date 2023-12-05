@@ -6,7 +6,7 @@ struct Leaderboard_entry {
 	int score;
 };
 
-int draw_leaderboard();
+void draw_leaderboard();
 
-int leaderboard_append(char name[], int score);
+void leaderboard_append(char name[], int score);
 
