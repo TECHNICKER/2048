@@ -113,7 +113,7 @@ int main()
 				game = empty_game;
 
 				printf("Insert player name:");
-				scanf(" %16s", &game.gameinfo.name);
+				scanf(" %16s", &(game.gameinfo.name));
 
 				generate(game.gametrix);
 				generate(game.gametrix);

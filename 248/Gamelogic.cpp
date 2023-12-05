@@ -42,7 +42,7 @@ void merge(char dir, int *score, int gametrix[4][4])
 				if (gametrix[y][x] == gametrix[y - 1][x] && (gametrix[y][x] * 2 != temptrix[y][x]))
 				{
 					temptrix[y - 1][x] = gametrix[y][x] * 2;
-					score += temptrix[y - 1][x];
+					*score += temptrix[y - 1][x];
 					temptrix[y][x] = -1; //MARK WHERE MERGED FROM
 				}
 			}
@@ -113,7 +113,7 @@ void merge(char dir, int *score, int gametrix[4][4])
 				if (gametrix[y][x] == gametrix[y + 1][x] && (gametrix[y][x] * 2 != temptrix[y][x]))
 				{
 					temptrix[y + 1][x] = gametrix[y][x] * 2;
-					score += temptrix[y + 1][x];
+					*score += temptrix[y + 1][x];
 					temptrix[y][x] = -1; //MARK WHERE MERGED FROM
 				}
 			}
@@ -183,7 +183,7 @@ void merge(char dir, int *score, int gametrix[4][4])
 				if (gametrix[y][x] == gametrix[y][x - 1] && (gametrix[y][x] * 2 != temptrix[y][x]))
 				{
 					temptrix[y][x - 1] = gametrix[y][x] * 2;
-					score += temptrix[y][x - 1];
+					*score += temptrix[y][x - 1];
 					temptrix[y][x] = -1; //MARK WHERE MERGED FROM
 				}
 			}
@@ -253,7 +253,7 @@ void merge(char dir, int *score, int gametrix[4][4])
 				if (gametrix[y][x] == gametrix[y][x + 1] && (gametrix[y][x] * 2 != temptrix[y][x]))
 				{
 					temptrix[y][x + 1] = gametrix[y][x] * 2;
-					score += temptrix[y][x + 1];
+					*score += temptrix[y][x + 1];
 					temptrix[y][x] = -1; //MARK WHERE MERGED FROM
 				}
 			}

@@ -4,8 +4,7 @@
 #include <Windows.h>
 #include "Style.h"
 
-
-//poctivì ukradeno ze stackoverflow
+//poctive ukradeno ze stackoverflow
 void setFontSize(int a, int b)
 {
 
