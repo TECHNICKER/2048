@@ -148,9 +148,11 @@ int main()
 					if (up_prev == false)
 					{
 						merge('U', &game.gameinfo.score, game.gametrix);
-						
+
+						//pokud už není kam dál vygenerovat blok, ukonči hru
 						if (generate(game.gametrix) == 1)
 						{
+							//GAME OVER sekvence
 							system("cls");
 							printf("\033[0;31m");
 							printf("GAME OVER");
