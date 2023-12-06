@@ -331,7 +331,7 @@ int generate(int gametrix[4][4])
 
 	value_chance = (rand() % (5 - 1 + 1)) + 1;
 
-	(value_chance < 5) ? (value = 2) : (value_chance = 4);
+	(value_chance < 5) ? (value = 2) : (value = 4);
 
 	switch (index)
 	{
