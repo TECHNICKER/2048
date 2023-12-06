@@ -125,6 +125,7 @@ void draw(char name[16], int score, int gametrix[4][4])
 
 			}
 
+			//ternární operátor
 			(gametrix[y][x] > 0) ? (curr_tile_length = floor(log10(abs(gametrix[y][x]))) + 1) : (curr_tile_length = 1);
 
 			for (int spacer = 0; spacer < (scale - curr_tile_length + 1); spacer++)
