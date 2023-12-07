@@ -1,6 +1,6 @@
 #pragma once
+#include "Save.h"
 
-
-void draw(char name[16], int score, int gametrix[4][4]);
+void draw(Gamestate game);
 
 void draw_menu(int menu);

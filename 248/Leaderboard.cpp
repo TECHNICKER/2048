@@ -79,7 +79,7 @@ void draw_leaderboard()
 
 }
 
-void leaderboard_append(char name[], int score)
+void leaderboard_append(Leaderboard_entry gameinfo)
 {
 	Leaderboard_entry leaderboard[10] = {};
 	FILE* file;
@@ -98,7 +98,7 @@ void leaderboard_append(char name[], int score)
 		if (index == 0)
 		{
 
-			if ((score > leaderboard[index + 1].score) && (score > leaderboard[index].score))
+			if ((gameinfo.score > leaderboard[index + 1].score) && (gameinfo.score > leaderboard[index].score))
 			{
 
 				for (int i = 9; i > index; i--)
@@ -106,8 +106,8 @@ void leaderboard_append(char name[], int score)
 					leaderboard[i] = leaderboard[i - 1];
 				}
 
-				leaderboard[index].score = score;
-				strcpy(leaderboard[index].name, name);
+				leaderboard[index].score = gameinfo.score;
+				strcpy(leaderboard[index].name, gameinfo.name);
 
 				break;
 			}
@@ -118,7 +118,7 @@ void leaderboard_append(char name[], int score)
 		}
 		else {
 
-			if ((score < leaderboard[index - 1].score) && (score > leaderboard[index + 1].score) && (score > leaderboard[index].score))
+			if ((gameinfo.score < leaderboard[index - 1].score) && (gameinfo.score > leaderboard[index + 1].score) && (gameinfo.score > leaderboard[index].score))
 			{
 				
 				for (int i = 9; i > index; i--)
@@ -126,8 +126,8 @@ void leaderboard_append(char name[], int score)
 					leaderboard[i] = leaderboard[i - 1];
 				}
 
-				leaderboard[index].score = score;
-				strcpy(leaderboard[index].name, name);
+				leaderboard[index].score = gameinfo.score;
+				strcpy(leaderboard[index].name, gameinfo.name);
 
 				break;
 			}

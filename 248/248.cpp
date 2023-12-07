@@ -121,7 +121,7 @@ int main()
 				generate(game.gametrix);
 
 				save(&game);
-				draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
+				draw(game);
 			}
 			else {
 
@@ -136,7 +136,7 @@ int main()
 					}
 					else
 					{
-						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
+						draw(game);
 					}
 				}
 			}
@@ -157,7 +157,7 @@ int main()
 							printf("\033[0;31m");
 							printf("GAME OVER");
 							printf("\033[0m");
-							leaderboard_append(game.gameinfo.name, game.gameinfo.score);
+							leaderboard_append(game.gameinfo);
 							remove("Gamestate.bin");
 
 							Sleep(2000);
@@ -168,7 +168,7 @@ int main()
 						}
 						
 						save(&game);
-						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
+						draw(game);
 
 						up_prev = true;
 					}
@@ -190,7 +190,7 @@ int main()
 							printf("\033[0;31m");
 							printf("GAME OVER");
 							printf("\033[0m");
-							leaderboard_append(game.gameinfo.name, game.gameinfo.score);
+							leaderboard_append(game.gameinfo);
 							remove("Gamestate.bin");
 
 							Sleep(2000);
@@ -201,7 +201,7 @@ int main()
 						}
 
 						save(&game);
-						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
+						draw(game);
 
 						down_prev = true;
 					}
@@ -223,7 +223,7 @@ int main()
 							printf("\033[0;31m");
 							printf("GAME OVER");
 							printf("\033[0m");
-							leaderboard_append(game.gameinfo.name, game.gameinfo.score);
+							leaderboard_append(game.gameinfo);
 							remove("Gamestate.bin");
 
 							Sleep(2000);
@@ -234,7 +234,7 @@ int main()
 						}
 
 						save(&game);
-						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
+						draw(game);
 
 						left_prev = true;
 					}
@@ -256,7 +256,7 @@ int main()
 							printf("\033[0;31m");
 							printf("GAME OVER");
 							printf("\033[0m");
-							leaderboard_append(game.gameinfo.name, game.gameinfo.score);
+							leaderboard_append(game.gameinfo);
 							remove("Gamestate.bin");
 
 							Sleep(2000);
@@ -267,7 +267,7 @@ int main()
 						}
 
 						save(&game);
-						draw(game.gameinfo.name, game.gameinfo.score, game.gametrix);
+						draw(game);
 
 						right_prev = true;
 					}

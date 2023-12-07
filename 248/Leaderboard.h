@@ -8,5 +8,5 @@ struct Leaderboard_entry {
 
 void draw_leaderboard();
 
-void leaderboard_append(char name[], int score);
+void leaderboard_append(Leaderboard_entry gameinfo);
 

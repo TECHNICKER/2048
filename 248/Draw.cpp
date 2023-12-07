@@ -4,7 +4,7 @@
 #include "Draw.h"
 
 
-void draw(char name[16], int score, int gametrix[4][4])
+void draw(Gamestate game)
 {
 	int largest_tile = 0;
 	int curr_tile_length = 0;
@@ -13,14 +13,14 @@ void draw(char name[16], int score, int gametrix[4][4])
 	system("cls");
 
 	printf("\033[0m");
-	printf("%s\n", name);
-	printf("score: %d\n", score);
+	printf("%s\n", game.gameinfo.name);
+	printf("score: %d\n", game.gameinfo.score);
 
 	for (int y = 0; y < 4; y++)
 	{
 		for (int x = 0; x < 4; x++)
 		{
-			if (largest_tile < gametrix[y][x]) { largest_tile = gametrix[y][x]; }
+			if (largest_tile < game.gametrix[y][x]) { largest_tile = game.gametrix[y][x]; }
 		}
 	}
 
@@ -30,103 +30,103 @@ void draw(char name[16], int score, int gametrix[4][4])
 	{
 		for (int x = 0; x < 4; x++)
 		{
-			switch (gametrix[y][x])
+			switch (game.gametrix[y][x])
 			{
 			case 0:
 
 				printf("\033[1;30m");
-				printf("%d", gametrix[y][x]);
+				printf("%d", game.gametrix[y][x]);
 
 				break;
 
 			case 2:
 
 				printf("\033[1;33m");
-				printf("%d", gametrix[y][x]);
+				printf("%d", game.gametrix[y][x]);
 
 				break;
 
 			case 4:
 
 				printf("\033[0;33m");
-				printf("%d", gametrix[y][x]);
+				printf("%d", game.gametrix[y][x]);
 
 				break;
 
 			case 8:
 
 				printf("\033[1;32m");
-				printf("%d", gametrix[y][x]);
+				printf("%d", game.gametrix[y][x]);
 
 				break;
 
 			case 16:
 
 				printf("\033[0;32m");
-				printf("%d", gametrix[y][x]);
+				printf("%d", game.gametrix[y][x]);
 
 				break;
 
 			case 32:
 
 				printf("\033[1;36m");
-				printf("%d", gametrix[y][x]);
+				printf("%d", game.gametrix[y][x]);
 
 				break;
 
 			case 64:
 
 				printf("\033[1;34m");
-				printf("%d", gametrix[y][x]);
+				printf("%d", game.gametrix[y][x]);
 
 				break;
 
 			case 128:
 
 				printf("\033[0;34m");
-				printf("%d", gametrix[y][x]);
+				printf("%d", game.gametrix[y][x]);
 
 				break;
 
 			case 256:
 
 				printf("\033[1;35m");
-				printf("%d", gametrix[y][x]);
+				printf("%d", game.gametrix[y][x]);
 
 				break;
 
 			case 512:
 
 				printf("\033[0;35m");
-				printf("%d", gametrix[y][x]);
+				printf("%d", game.gametrix[y][x]);
 
 				break;
 
 			case 1024:
 
 				printf("\033[1;31m");
-				printf("%d", gametrix[y][x]);
+				printf("%d", game.gametrix[y][x]);
 
 				break;
 
 			case 2048:
 
 				printf("\033[0;31m");
-				printf("%d", gametrix[y][x]);
+				printf("%d", game.gametrix[y][x]);
 
 				break;
 
 			default:
 
 				printf("\033[0m");
-				printf("%d", gametrix[y][x]);
+				printf("%d", game.gametrix[y][x]);
 
 				break;
 
 			}
 
 			//ternární operátor
-			(gametrix[y][x] > 0) ? (curr_tile_length = floor(log10(abs(gametrix[y][x]))) + 1) : (curr_tile_length = 1);
+			(game.gametrix[y][x] > 0) ? (curr_tile_length = floor(log10(abs(game.gametrix[y][x]))) + 1) : (curr_tile_length = 1);
 
 			for (int spacer = 0; spacer < (scale - curr_tile_length + 1); spacer++)
 			{
